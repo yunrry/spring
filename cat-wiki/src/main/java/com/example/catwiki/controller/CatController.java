@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController // @Controller + @ResponseBody
 @RequestMapping("/cats")
@@ -33,12 +34,13 @@ public class CatController {
     public Cat getCatById(
             @PathVariable Long id
     ) {
-        for (Cat cat : catList) {
+        /*for (Cat cat : catList) {
             if(cat.getId().equals(id)) {
                 return cat;
             }
-        }
-        return null;
+        }*/
+        Optional<Cat> cat =  catList.stream().filter(c -> c.getId().equals(id)).findFirst(); // Optional로 받음(값이 없을 수도 있음)
+        return cat.orElse(null);
     }
 
     // 새로운 고양이 추가
