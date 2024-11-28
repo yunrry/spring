@@ -33,6 +33,16 @@ dependencies {
 
     implementation 'org.hibernate.orm:hibernate-core:6.6.0.Final'
 
+    // 테스트용 의존성
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api'  // JUnit 5 (JUnit Jupiter)
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    testImplementation 'org.mockito:mockito-core'            // Mockito
+    testImplementation 'org.assertj:assertj-core'            // AssertJ
+    testImplementation 'org.mockito:mockito-junit-jupiter'   // Mockito JUnit 5 연동
+
+
+
 }
 
 tasks.named('test') {

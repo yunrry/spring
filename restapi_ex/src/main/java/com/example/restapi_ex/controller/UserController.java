@@ -16,8 +16,8 @@ public class UserController {
 
     // 생성
     @PostMapping
-    public UserResponse create(@RequestBody UserRequest request) {
-        UserEntity entity =  userService.createUser(
+    public UserResponse create(@RequestBody UserRequest request) throws Exception {
+        UserEntity entity =  userService.createUserWithRollBack( //userService.createUser(
                 UserEntity.builder()
                         .name(request.getName())
                         .email(request.getEmail())
@@ -36,6 +36,7 @@ public class UserController {
     public UserResponse getUserById(@PathVariable Long id) {
         UserEntity entity = userService.getUserById(id);
 
+        if (entity == null) { return UserResponse.builder().build(); }
         return UserResponse.builder()
                 .id(entity.getId())
                 .name(entity.getName())
@@ -46,7 +47,12 @@ public class UserController {
     // 업데이트
     @PutMapping("/{id}")
     public UserResponse updateUserById(@PathVariable Long id, @RequestBody UserRequest request) {
-        UserEntity entity = userService.getUserById(id);
+        UserEntity entity = userService.updateUser(id,
+                UserEntity.builder()
+                        .name(request.getName())
+                        .email(request.getEmail())
+                        .build()
+        );
 
         return UserResponse.builder()
                 .id(entity.getId())

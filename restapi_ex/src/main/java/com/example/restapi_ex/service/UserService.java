@@ -20,6 +20,18 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    public UserEntity createUserWithRollBack(UserEntity user) throws Exception {
+        UserEntity entity = userRepository.save(user);
+
+        // 강제 예외 발색
+        if(user.getEmail().contains("error")){
+            throw new Exception("강제 예외 발생!!!!!");
+        }
+
+        return entity;
+    }
+
     // user 정보 조회
     @Transactional(readOnly = true)
     public UserEntity getUserById(Long id) {
